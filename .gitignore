@@ -140,3 +140,4 @@ cache
 artifacts
 
 .vscode/settings.json
+package-lock.json

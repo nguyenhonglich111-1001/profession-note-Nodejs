@@ -5,9 +5,9 @@ var routes = {
         response.writeHead(200);
         response.end("Hello, World!");
     },
-    "/foo": function foo(request, response) {
-        response.writeHead(200);
-        response.end('You ar viewing "Foo" bro!');
+    "/404": function foo(request, response) {
+        response.writeHead(404);
+        response.end('Nothing here bro');
     },
 };
 

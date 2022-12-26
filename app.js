@@ -1,15 +1,28 @@
-const express = require("express");
-const greetMiddleware = require("./greet.js");
-class GreetingService {
-    constructor(_greeting) {
-        this.greeting = _greeting;
-    }
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
-    createGreeting(_name) {
-        return `${this.greeting}, ${_name}`;
-    }
+PERSONAL_MONGODB_CLIENT_PASSWORD = process.env.PERSONAL_MONGODB_CLIENT_PASSWORD;
+PERSONAL_MONGODB_CLIENT_USERNAME = process.env.PERSONAL_MONGODB_CLIENT_USERNAME;
+// Connection URL
+const url = `mongodb+srv://${PERSONAL_MONGODB_CLIENT_USERNAME}:${PERSONAL_MONGODB_CLIENT_PASSWORD}@personal.r7jxpl0.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(url);
+
+async function main() {
+    // Use connect method to connect to the server
+    await client.connect();
+    console.log("Connected successfully to server");
+
+    const codingDB = client.db('coding')
+
+    var cardDocs = codingDB.collection('cards')
+
+    const findResult = await cardDocs.find({}).toArray();
+    console.log('Found documents =>', findResult);
+
+    return "done.";
 }
-express()
-    .use("/api/v1", greetMiddleware({ service: new GreetingService("Hallo") }))
-    .use("/api/v2", greetMiddleware({ greeting: "Yo Bro, how u doin' man?!" }))
-    .listen(3020);
+
+main()
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => client.close());

@@ -24,12 +24,14 @@ app.get("/:user_id", function (req, res, next) {
     }
 });
 
+
+app.route("/test").get((req, res, next) => {
+    res.send("<h1> test ahihi </h1>");
+});
+
 app.use((err, req, res, next) => {
     console.log(err.stack);
     return res.status(500).send("Internal Server Occurred"); // Send to the window
-});
-app.route("/test").get((req, res, next) => {
-    res.send("<h1> test ahihi </h1>");
 });
 
 app.listen(port, function () {
